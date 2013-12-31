@@ -3,26 +3,39 @@ require 'alter_git_flow/params_parser'
 
 describe AlterGitFlow::ParamsParser do
 
+  let(:argv) { ["scenario", "argument"] }
+
+  before :each do
+    stub_const('AlterGitFlow::VALID_SCENARIOS', [:scenario])
+  end
+
+  it "is call parse in initialize" do
+    expect_any_instance_of(AlterGitFlow::ParamsParser).to receive(:parse)
+    parser = AlterGitFlow::ParamsParser.new(argv)
+  end
+
   describe "when passing valid command line arguments" do
 
-    let(:argv) { ["scenario", "argument"] }
+    let(:valid_scenario) { "scenario" }
+    let(:valid_arguments) { ["argument"] }
 
-    it "is call parse in initialize" do
-      expect_any_instance_of(AlterGitFlow::ParamsParser).to receive(:parse)
-      parser = AlterGitFlow::ParamsParser.new(argv)
-    end
+    subject { AlterGitFlow::ParamsParser.new(argv) }
 
-    context "attributes" do
+    it { should be_valid }
 
-      subject { AlterGitFlow::ParamsParser.new(argv) }
+    its(:scenario) { should eq valid_scenario }
 
-      it { should be_valid }
+    its(:arguments) { should eq valid_arguments }
 
-      its(:scenario) { should eq argv.first }
+  end
 
-      its(:arguments) { should eq ["argument"] }
+  describe "when argv isn't proper" do
 
-    end
+    let(:argv) { ["scenario1", "argument"] }
+
+    subject { AlterGitFlow::ParamsParser.new(argv) }
+
+    it { should_not be_valid }
 
   end
 

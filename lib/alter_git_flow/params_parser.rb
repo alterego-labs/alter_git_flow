@@ -1,3 +1,5 @@
+require 'alter_git_flow/constants'
+
 module AlterGitFlow
   class ParamsParser
 
@@ -5,11 +7,11 @@ module AlterGitFlow
 
     def initialize(argv = [])
       @argv = argv
-      parse if valid?
+      parse
     end
 
     def valid?
-      @argv.any?
+      @argv.any? && AlterGitFlow::VALID_SCENARIOS.include?(scenario.to_sym)
     end
 
     private
