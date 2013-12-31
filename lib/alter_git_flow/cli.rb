@@ -8,7 +8,6 @@ module AlterGitFlow
     private
 
     def good_run(argv, env)
-      binding.pry
       argv.any?
     end
 
