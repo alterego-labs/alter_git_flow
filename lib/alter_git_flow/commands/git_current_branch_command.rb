@@ -1,12 +1,12 @@
 module AlterGitFlow::Commands
-  class GitCurrentBranchCommand
+  class GitCurrentBranchCommand < BasicCommand
 
     def pattern
       "rev-parse --abbrev-ref HEAD"
     end
 
     def arguments
-      ""
+      {}
     end
 
   end
