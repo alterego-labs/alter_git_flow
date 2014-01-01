@@ -3,7 +3,8 @@ module AlterGitFlow::Scenarios
 
     attr_reader :commands
 
-    def initialize
+    def initialize(arguments = [])
+      @args = arguments
       init_commands
     end
 
