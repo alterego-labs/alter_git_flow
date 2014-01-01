@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'alter_git_flow'
 require 'alter_git_flow/cli'
 require 'alter_git_flow/params_parser'
 require 'alter_git_flow/scenarios/scenario_runner'
@@ -85,8 +86,15 @@ describe AlterGitFlow::Cli do
 
   describe "#instantiate_command_runner" do
 
-    it "is instantiate cocaine command runner" do
-      expect(AlterGitFlow::Commands::CocaineCommandRunner).to receive(:new)
+    let(:command_runner) { double(:command_runner) }
+    let(:config) { double(:config, command_runner: command_runner) }
+
+    before :each do
+      AlterGitFlow.stub(:config) { config }
+    end
+
+    it "is instantiate command runner setted in config" do
+      expect(command_runner).to receive(:new)
       subject.send(:instantiate_command_runner)
     end
 

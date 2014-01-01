@@ -18,7 +18,7 @@ module AlterGitFlow
     end
 
     def instantiate_command_runner
-      AlterGitFlow::Commands::CocaineCommandRunner.new
+      AlterGitFlow.config.command_runner.new
     end
 
     def parser(argv = [])
