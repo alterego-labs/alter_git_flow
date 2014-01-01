@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'alter_git_flow/cli'
 require 'alter_git_flow/params_parser'
+require 'alter_git_flow/scenarios/scenario_runner'
+require 'alter_git_flow/commands/basic_command_runner'
+require 'alter_git_flow/commands/cocaine_command_runner'
 
 describe AlterGitFlow::Cli do
 
@@ -56,6 +59,35 @@ describe AlterGitFlow::Cli do
         subject.send(:good_run, nil, nil).should be_false
       end
 
+    end
+
+  end
+
+  describe "#scenario_run" do
+
+    let(:commands) { double }
+    let(:scenario_runner) { double(:scenario_runner) }
+    let(:command_runner) { double(:command_runner) }
+    let(:scenario) { double(:scenario, commands: commands) }
+
+    before :each do
+      subject.instance_variable_set(:@_parser, parser)
+    end
+
+    it "is instantiate scenario runner and execute it" do
+      subject.stub(:instantiate_command_runner) { command_runner }
+      expect(AlterGitFlow::Scenarios::ScenarioRunner).to receive(:new).with(parser).and_return(scenario_runner)
+      expect(scenario_runner).to receive(:execute).with(command_runner)
+      subject.send(:scenario_run)
+    end
+
+  end
+
+  describe "#instantiate_command_runner" do
+
+    it "is instantiate cocaine command runner" do
+      expect(AlterGitFlow::Commands::CocaineCommandRunner).to receive(:new)
+      subject.send(:instantiate_command_runner)
     end
 
   end

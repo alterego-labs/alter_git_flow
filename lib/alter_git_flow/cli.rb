@@ -12,7 +12,13 @@ module AlterGitFlow
     end
 
     def scenario_run
-      true
+      AlterGitFlow::Scenarios::ScenarioRunner.new(parser).tap do |runner|
+        runner.execute instantiate_command_runner
+      end
+    end
+
+    def instantiate_command_runner
+      AlterGitFlow::Commands::CocaineCommandRunner.new
     end
 
     def parser(argv = [])
