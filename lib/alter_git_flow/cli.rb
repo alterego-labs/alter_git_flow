@@ -8,7 +8,21 @@ module AlterGitFlow
     private
 
     def good_run(argv, env)
-      argv.any?
+      parser(argv).valid? ? scenario_run : false
+    end
+
+    def scenario_run
+      AlterGitFlow::Scenarios::ScenarioRunner.new(parser).tap do |runner|
+        runner.execute instantiate_command_runner
+      end
+    end
+
+    def instantiate_command_runner
+      AlterGitFlow.config.command_runner.new
+    end
+
+    def parser(argv = [])
+      @_parser ||= ParamsParser.new argv
     end
 
   end
